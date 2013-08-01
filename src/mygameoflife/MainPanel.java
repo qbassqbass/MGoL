@@ -17,8 +17,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 /**
@@ -92,8 +90,13 @@ public class MainPanel extends JPanel implements MouseListener, KeyListener{
         x /= pSize; //x *= pSize;
         y /= pSize; //y *= pSize;
         System.out.println("x="+x+" y="+y+" AliveNeighbours="+this.countAliveNeighbours(x, y));
-        if(point[x][y] == 1) point[x][y] = 0;
-        else point[x][y] = 1;
+        if(point[x][y] == 1){
+            point[x][y] = 0;
+            life.decLifeCount();
+        }else{
+            point[x][y] = 1;
+            life.incLifeCount();
+        }
         repaint();
     }
     private int countAliveNeighbours(int x, int y){
@@ -197,6 +200,7 @@ public class MainPanel extends JPanel implements MouseListener, KeyListener{
         g2d.drawString("PLAY",0,20);
         g2d.drawString("STOP",40, 20);
         g2d.drawString("Cycle: "+life.getCycleCount(), 80, 20);
+        g2d.drawString("Life: "+life.getLifeCount(),180,20);
     }
     
     @Override

@@ -10,6 +10,7 @@ package mygameoflife;
  */
 public class LifeThread implements Runnable{
     private int cycleCount = 0;
+    private int lifeCount = 0;
     private int sleepDelay = 500;
     private volatile boolean started = false;
     public volatile boolean pointsGot = false;
@@ -23,6 +24,15 @@ public class LifeThread implements Runnable{
     }
     public int[][] getTmpPoints(){
         return tmpPoints;
+    }
+    public int getLifeCount(){
+        return this.lifeCount;
+    }
+    public void incLifeCount(){
+        this.lifeCount++;
+    }
+    public void decLifeCount(){
+        this.lifeCount--;
     }
 
     public int getCycleCount() {
@@ -150,11 +160,14 @@ public class LifeThread implements Runnable{
         }
         for(int i = 0; i < this.points.length; i++){
             for(int j = 0; j < this.points[i].length; j++){
-                if(this.points[i][j] == 0 & neighbours[i][j] == 3){
+                if(this.points[i][j] == 0 & (neighbours[i][j] == 3)){
                     this.points[i][j] = 1;
+                    this.incLifeCount();
                 }else if(this.points[i][j] == 1){
-                    if(neighbours[i][j] < 2 | neighbours[i][j] > 3)
+                    if(neighbours[i][j] < 2 | neighbours[i][j] > 3){
                         this.points[i][j] = 0;
+                        this.decLifeCount();
+                    }
                 }
             }
         }
